@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+
+  insurance-scraper-admin:
+    build: ./insurance-scraper-admin
+    
+  local-mongo:
+    build: ./local-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+      - "27018:27018"
+
+  local-remote-mongo:
+    build: ./local-remote-mongo
+    restart: always
+    ports:
+      - "27019:27017"
+      - "27020:27018"
+
