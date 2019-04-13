@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# scrapy
-Scrapy
-=======
 ### Scrapy main repo ###
 
 **Local development**
@@ -12,4 +8,3 @@ navigate to `scripts/run-remote` run `docker-compose up` from terminal
 
 **Local control node run**
 navigate to `scripts/run-local` run `docker-compose up` from terminal
->>>>>>> master
