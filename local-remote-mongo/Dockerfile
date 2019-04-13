@@ -1,0 +1,6 @@
+FROM mongo:4.1.9
+
+VOLUME ./data:/data/db
+
+EXPOSE 27017
+EXPOSE 27018
