@@ -1,0 +1,30 @@
+.errorMessage {
+    color: red;
+}
+
+.item {
+    margin: 5px 10px;
+}
+
+.mainContainer {
+    position: relative;
+    padding: 20px;
+    border: solid black 1px;
+
+    .loadingOverlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(77, 77, 77, 0.322);
+        color: white;
+    }
+
+    button:hover {
+        cursor: pointer;
+    }
+}

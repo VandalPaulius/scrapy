@@ -1,0 +1,13 @@
+.menuItem {
+    padding: 8px 15px;
+    background: rgb(225, 248, 255);
+
+    &.active {
+        background: rgb(167, 233, 255);
+    }
+
+    &:hover {
+        background: rgb(44, 196, 247);
+        cursor: pointer;
+    }
+}

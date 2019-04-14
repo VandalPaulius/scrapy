@@ -1,0 +1,26 @@
+.mainContainer {
+    padding: 20px;
+    background: rgb(241, 241, 241);
+
+    button:hover, input[type=radio] {
+        cursor: pointer;
+    }
+}
+
+.errorMessage {
+    color: red;
+}
+
+.uploadContainer {
+    padding-top: 10px;
+
+    .sectionStart {
+        margin-top: 10px;
+    }
+}
+
+.loadingIcon {
+    height: 80px;
+    width: 80px;
+    stroke-width: 2px;
+}
