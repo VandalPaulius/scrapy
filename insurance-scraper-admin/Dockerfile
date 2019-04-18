@@ -2,11 +2,16 @@ FROM node:10.15.3
 
 RUN apt-get update
 
-COPY ./app /usr/src/app/app
-COPY ./package.json /usr/src/app
+COPY . /usr/src/app
 WORKDIR /usr/src/app
 
+RUN npm install --global nodemon
+RUN npm install
+EXPOSE 3001
+
+CMD [ "npm", "run", "dev" ]
+
+RUN cd ./client
 RUN npm install
 
-EXPOSE 3001
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "dev" ]

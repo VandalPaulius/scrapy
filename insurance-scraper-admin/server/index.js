@@ -7,10 +7,12 @@ const initDb = async () => {
     let db;
 
     try {
+        console.log('connecting to db')
         client = await mongoClient.connect(process.env.APPLICATION_MONGODB_URL);
 
         db = client.db(process.env.MONGODB_NAME);
     } catch (err) {
+        console.log('db connect err')
         console.error(err);
     }
 
