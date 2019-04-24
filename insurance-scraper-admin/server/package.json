@@ -1,12 +1,12 @@
 {
   "name": "gps-backend",
   "version": "0.0.0",
-  "description": "gocompare scraper quote viewer",
-  "main": "server/index.js",
+  "description": "scraper admin server",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/index.js",
-    "dev": "nodemon --exec \"node --inspect server/index.js\" --watch index.js --watch router"
+    "start": "node index.js",
+    "dev": "nodemon --exec \"node --inspect ./index.js\" --watch index.js --watch router"
   },
   "author": "Vandal Paulius Juska",
   "license": "ISC",
