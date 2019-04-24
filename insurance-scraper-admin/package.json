@@ -1,15 +1,25 @@
 {
-    "name": "insurance-scraper-admin",
-    "version": "0.0.0",
-    "description": "insurance-scraper-admin",
-    "main": "./app/index.js",
-    "scripts": {
-      "start": "node ./app/index.js"
-    },
-    "author": "Vandal Paulius Juska",
-    "license": "ISC",
-    "dependencies": {
-        "dotenv": "^4.0.0"
-    }
+  "name": "gps-backend",
+  "version": "0.0.0",
+  "description": "gocompare scraper quote viewer",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "dev": "nodemon --exec \"node --inspect server/index.js\" --watch index.js --watch router"
+  },
+  "author": "Vandal Paulius Juska",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "csv-parse": "^4.3.3",
+    "cwd": "^0.10.0",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "moment": "^2.24.0",
+    "mongodb": "^3.2.1",
+    "multer": "^1.4.1",
+    "uuid": "^3.3.2",
+    "ws": "^6.2.0"
   }
-  
+}
