@@ -1,12 +1,12 @@
 {
-  "name": "gps-backend",
+  "name": "insurance-scraper-admin-panel-server",
   "version": "0.0.0",
   "description": "scraper admin server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon --exec \"node --inspect ./index.js\" --watch index.js --watch router"
+    "dev": "nodemon --exec \"node --inspect ./index.js\" --watch"
   },
   "author": "Vandal Paulius Juska",
   "license": "ISC",

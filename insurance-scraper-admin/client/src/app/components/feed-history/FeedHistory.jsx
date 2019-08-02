@@ -45,6 +45,7 @@ class FeedHistory extends React.Component {
                                 this.setState({
                                     feedHistory,
                                     loading: false,
+                                    error: null,
                                 });
                             });
                     } else {

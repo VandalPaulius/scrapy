@@ -1,40 +1,17 @@
+// @ts-nocheck
+
 require('dotenv').config();
-const WebSocketStore = require('./lib/webSocketStore');
+const express = require('express');
+const app = express();
+const apiRouter = express.Router();
+const bodyParser = require('body-parser');
+const router = require('./router');
+const path = require('path');
+const { WebSocketStore, DatabaseHandler } = require('./lib');
 
-const initDb = async () => {
-    const mongoClient = require('mongodb').MongoClient;
-    let client;
-    let db;
-
-    try {
-        console.log('connecting to db')
-        client = await mongoClient.connect(process.env.APPLICATION_MONGODB_URL);
-
-        db = client.db(process.env.MONGODB_NAME);
-    } catch (err) {
-        console.log('db connect err')
-        console.error(err);
-    }
-
-    await db.createCollection('FEED_FILE_UPLOADS');
-    await db.createCollection('RAW_POSTCODES');
-
-    return db;
-}
-
-// WSStore = WebSocketStore({ messageDelay: 50 });
-
-const initHttpListener = async (database) => {
-    const express = require('express');
-    const app = express();
-    const apiRouter = express.Router();
-    const bodyParser = require('body-parser');
-    const router = require('./router');
-    const path = require('path');
-
-    if (!database) {
-        console.log('Cannot run without database');
-        return;
+const initHttpListener = async (dbHandler) => {
+    if (!dbHandler.localDb) {
+        throw 'Cannot run without database';
     }
 
     app.use((req, res, next) => {
@@ -49,7 +26,7 @@ const initHttpListener = async (database) => {
     }));
     app.use(bodyParser.json());
 
-    router.configureApi({ router: apiRouter, database });
+    router.configureApi({ router: apiRouter });
 
     app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
@@ -58,6 +35,8 @@ const initHttpListener = async (database) => {
     const server = app.listen(parseInt(process.env.PORT), 'localhost', () =>
         console.log(`App is listening at http://${server.address().address}:${server.address().port}`)
     );
+
+    // WebSocket init
     const WSStore = WebSocketStore({ messageDelay: 50 });
 
     await WSStore.proto.initWebSocketServer({
@@ -68,18 +47,31 @@ const initHttpListener = async (database) => {
     });
 
     app.set('WSStore', WSStore);
+    app.set('dbHandler', dbHandler);
 }
 
-console.log('Starting Admin service');
+async function init() {
+    console.log('Starting Admin service');
 
-try {
-    initDb().then(async (database) => {
-        await initHttpListener(database);
+    try {
+        const dbHandler = DatabaseHandler();
+        await dbHandler.initLocalDb();
+        // init app settings from local db
+        await initHttpListener(dbHandler);
         console.log('Admin service started successfully');
-    });
-} catch (err) {
-    if (err) {
+    } catch (err) {
+        debugger
         console.log('Admin service startup failed: ', err);
         process.exit(1);
     }
+};
+
+// required to wait for debugger to initialize
+if (process.env.NODE_ENV === 'DEBUG') {
+    debugger
+    setTimeout(() => {
+        init();
+    }, 6000)
+} else {
+    init();
 }
