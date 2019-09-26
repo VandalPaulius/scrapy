@@ -1,5 +1,5 @@
-const routes = require('./routes')
+const routes = require("./routes");
 
 exports.configureApi = ({ router, database }) => {
-    routes.dataFeeds.configure({ router, database });
-}
+  routes.dataFeeds.configure({ router, database });
+};

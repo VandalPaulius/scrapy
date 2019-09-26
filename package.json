@@ -5,12 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": ""
+    "dev": "",
+    "lint": "./node_modules/.bin/eslint \"./src/**/*.{js,jsx}\"",
+    "format": "./node_modules/.bin/prettier-eslint --write \"src/**/*.js\""
+  },
+  "husky": {
+    "pre-commit": "npm run lint && npm run format"
   },
   "author": "Vandal Paulius Juska",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
-    "pm2": "^3.5.0"
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "husky": "^3.0.5",
+    "prettier-eslint": "^9.0.0",
+    "prettier-eslint-cli": "^5.0.0"
   }
 }
