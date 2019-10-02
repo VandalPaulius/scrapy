@@ -1,10 +1,14 @@
+// @ts-nocheck
+
 const multer = require('multer');
 const uploadMiddleware = multer({ dest: '/tmp/uploads' });
 const feedProcessors = require('./feedProcessors');
 const uuid = require('uuid/v4');
 const moment = require('moment');
 
-const handleUpload = async ({ database, req, res, next }) => {
+const handleUpload = async ({ req, res, next }) => {
+    const database = req.app.get('dbHandler').getActiveDatabase().db;
+
     const errorHandler = (err) => {
         res.status(400);
         res.write(err);
@@ -114,7 +118,9 @@ const handleUpload = async ({ database, req, res, next }) => {
     }
 };
 
-const getFeedHistory = async ({ database, req, res, next }) => {
+const getFeedHistory = async ({ req, res, next }) => {
+    const database = req.app.get('dbHandler').getActiveDatabase().db;
+
     const scrapes = await database
         .collection('FEED_FILE_UPLOADS')
         .find({})
@@ -126,12 +132,12 @@ const getFeedHistory = async ({ database, req, res, next }) => {
     res.end();
 };
 
-exports.configure = ({ router, database }) => {
+exports.configure = ({ router }) => {
     router
         .route('/data-feeds')
-        .post(uploadMiddleware.any(), async (req, res, next) => await handleUpload({ database, req, res, next }))
+        .post(uploadMiddleware.any(), async (req, res, next) => await handleUpload({ req, res, next }))
 
     router
         .route('/data-feeds')
-        .get(async (req, res, next) => await getFeedHistory({ database, req, res, next }))
+        .get(async (req, res, next) => await getFeedHistory({ req, res, next }))
 };

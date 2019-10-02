@@ -1,1 +1,4 @@
-module.exports = require('./webSocketStore')
+module.exports = {
+    WebSocketStore: require('./webSocketStore'),
+    DatabaseHandler: require('./databaseHandler'),
+};
