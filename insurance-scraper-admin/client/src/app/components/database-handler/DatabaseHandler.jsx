@@ -26,25 +26,62 @@ class DatabaseHandler extends React.Component {
             loadDatabases: () => {
                 this.actions.setLoading(true);
 
-                setTimeout(() => {
-                    const dbs = [
-                        {
-                            name: 'local',
-                            url: 'mongodb://adsad.local',
-                            main: false,
-                            id: uuid(),
-                        },
-                        {
-                            name: 'remote',
-                            url: 'mongodb://adsad.remote',
-                            main: true,
-                            id: uuid(),
-                        },
-                    ];
+                fetch(`${process.env.ADMIN_API_URL}/databases`, {
+                    method: 'GET',
+                    mode: 'cors',
+                }).then((res) => {
+                    if (!res.ok) {
+                        res
+                            .text()
+                            .then((text) => {
+                                throw new Error(text);
+                            });
+                    }
 
-                    this.setState({ databases: dbs });
-                    this.actions.setLoading(false);
-                }, 1000);
+                    res
+                        .json()
+                        .then((body) => {
+                            debugger
+                            if (!Array.isArray(body)) {
+                                throw new Error('Returned list is not array');
+                            }
+
+                            const databases = body.map(db => ({
+                                name: db.name,
+                                url: db.dbUrl,
+                                main: db.active,
+                                id: db.id,
+                            }));
+
+                            this.setState({ databases });
+                            this.actions.setLoading(false);
+                            this.actions.setError(false);
+                        });
+                })
+                    .catch((err) => {
+                        this.actions.setLoading(false);
+                        this.actions.setError(`Error: ${err}`);
+                    });
+
+                // setTimeout(() => {
+                //     const dbs = [
+                //         {
+                //             name: 'local',
+                //             url: 'mongodb://adsad.local',
+                //             main: false,
+                //             id: uuid(),
+                //         },
+                //         {
+                //             name: 'remote',
+                //             url: 'mongodb://adsad.remote',
+                //             main: true,
+                //             id: uuid(),
+                //         },
+                //     ];
+
+                //     this.setState({ databases: dbs });
+                //     this.actions.setLoading(false);
+                // }, 1000);
             },
             setMainDb: (id) => {
                 this.actions.setLoading(true);

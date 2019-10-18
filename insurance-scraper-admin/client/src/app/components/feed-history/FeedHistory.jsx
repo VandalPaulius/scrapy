@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './styles.scss';
 import propTypes from 'prop-types';
+import styles from './styles.scss';
 
 class FeedHistory extends React.Component {
     constructor(props) {

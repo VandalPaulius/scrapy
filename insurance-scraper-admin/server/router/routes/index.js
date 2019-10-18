@@ -1,1 +1,4 @@
-module.exports.dataFeeds = require('./dataFeeds');
+module.exports = {
+    dataFeeds: require('./dataFeeds'),
+    databases: require('./databases'),
+}

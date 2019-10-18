@@ -12,8 +12,9 @@ function DatabaseHandler(props = {}) {
                 id = uuidv4();
             }
 
-            if (dbHandler.databases.find(db => db.id === id)) {
-                return;
+            const existingDb = dbHandler.databases.find(db => db.id === id);
+            if (existingDb) {
+                return { db: existingDb.db, id: existingDb.id };
             }
 
             let db;
@@ -61,7 +62,7 @@ function DatabaseHandler(props = {}) {
         getActiveDatabase: () => {
             return dbHandler.databases.find((db) => db.active === true)
         },
-        setActiveDb(id) {
+        setActiveDb: (id) => {
             if (!id) {
                 throw new Error('No id passed for active db');
             }
@@ -79,6 +80,43 @@ function DatabaseHandler(props = {}) {
                     return db;
                 })
             }
+        },
+        getAllDatabases: async ({ noUpdate } = {}) => {
+            if (!noUpdate) {
+                await dbHandler.updateLocalDbList();
+            }
+
+            return dbHandler.databases;
+        },
+        updateLocalDbList: async () => {
+            const loadedDbs = await dbHandler.getNonLocalDatabasesFromLocalDb()
+                .filter(db => {
+                    const exist = dbHandler.databases.find(existingDb => existingDb.id === db.id);
+
+                    if (!exist) {
+                        return db;
+                    }
+                });
+
+            loadedDbs.forEach(db => {
+                dbHandler.databases.push({
+                    name: db.name,
+                    id: db.id,
+                    dbUrl: db.dbUrl,
+                    dbName: db.dbName,
+                });
+            })
+        },
+        getNonLocalDatabasesFromLocalDb: async () => {
+            if (!dbHandler.localDb) {
+                throw Error('No local database found');
+            }
+
+            const databases = await dbHandler.localDb.collection('DATABASES')
+                .find({})
+                .toArray();
+
+            return databases;
         }
     }
 

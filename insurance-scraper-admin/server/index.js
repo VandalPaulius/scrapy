@@ -21,8 +21,6 @@ const initHttpListener = async (dbHandler) => {
         next();
     })
   );
-  app.use(bodyParser.json());
-
     app.use(bodyParser.urlencoded({
         extended: false
     }));

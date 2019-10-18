@@ -1,5 +1,5 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
   entry: './src/index.js',
@@ -11,9 +11,9 @@ module.exports = {
   target: 'node',
   resolve: {
     modules: ['node_modules', path.resolve(__dirname, 'src')],
-    extensions: ['.js'],
+    extensions: ['.js']
   },
   devServer: {
-    contentBase: './dist',
-  },
-};
+    contentBase: './dist'
+  }
+}
